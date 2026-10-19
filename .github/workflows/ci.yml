@@ -1,0 +1,40 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Скачиваем код репозитория
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Устанавливаем Python
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    # Устанавливаем зависимости
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # Запускаем линтер
+    - name: Lint with flake8
+      run: |
+        pip install flake8
+        # Останавливаем сборку только при критических ошибках (E9, F63, F7, F82)
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+    # Запускаем наши тесты
+    - name: Test with pytest
+      run: |
+        pytest test_app.py -v
