@@ -1,0 +1,19 @@
+   # Виртуальное окружение Python
+   venv/
+   __pycache__/
+   *.py[cod]
+   *$py.class
+
+   # Системные файлы macOS
+   .DS_Store
+   .AppleDouble
+   .LSOverride
+
+   # IDE (VS Code)
+   .vscode/
+   *.swp
+   *.swo
+
+   # Логи и временные файлы
+   *.log
+   .env
