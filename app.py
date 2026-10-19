@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 import joblib
 import logging
+from prometheus_fastapi_instrumentator import Instrumentator
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -14,6 +15,8 @@ app = FastAPI(
     version="1.0.0"
 )
 
+Instrumentator().instrument(app).expose(app)
+   
 # 3. Схема валидации входных данных (Контракт API)
 class ChurnInput(BaseModel):
     tenure_months: int = Field(..., ge=0, le=100, description="Стаж клиента в месяцах (0-100)")
