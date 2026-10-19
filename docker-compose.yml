@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  churnguard-api:
+    build: .                # Собрать образ из Dockerfile в текущей папке
+    container_name: churnguard_container
+    ports:
+      - "8000:8000"         # Пробрасываем порт: внешний:внутренний
+    environment:
+      - PYTHONUNBUFFERED=1  # Заставляет Python писать логи в консоль без буферизации
+    restart: unless-stopped # Автоматически перезапускать контейнер, если он упал
